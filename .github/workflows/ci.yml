@@ -1,0 +1,30 @@
+name: Continuous Integration
+
+# 1. Cuándo se va a ejecutar: Cada vez que abran o actualicen un PR a main
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  # Este nombre "tests-and-linter" es el que buscaremos en la configuración de GitHub
+  tests-and-linter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar código del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar entorno de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-with: "20" # Versión de Node
+          cache: "npm"
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar Linter (Formateo de código)
+        run: npm run lint
+
+      - name: Ejecutar Pruebas Unitarias
+        run: npm test
