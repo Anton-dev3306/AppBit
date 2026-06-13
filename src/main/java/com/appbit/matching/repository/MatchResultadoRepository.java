@@ -1,4 +1,7 @@
 package com.appbit.matching.repository;
 
-public interface MatchResultadoRepository {
+import com.appbit.matching.entity.MatchResultado;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MatchResultadoRepository extends JpaRepository<MatchResultado, Long> {
 }
