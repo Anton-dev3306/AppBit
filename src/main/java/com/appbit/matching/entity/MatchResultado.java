@@ -2,6 +2,8 @@ package com.appbit.matching.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.Instant;
+import java.util.List;
 
 @Data
 @Entity
@@ -17,4 +19,19 @@ public class MatchResultado {
     private String region;
     private int totalAnalizados;
     private String diversidadResultado;
+
+    // Campos del candidato evaluado
+    private String candidatoId;
+    private String nombre;
+    private int scoreMatch;
+    private boolean badgeDiversidad;
+    private double lat;
+    private double lng;
+
+    @ElementCollection
+    @CollectionTable(name = "match_skills", joinColumns = @JoinColumn(name = "match_id"))
+    @Column(name = "skill")
+    private List<String> skills;
+
+    private Instant creadoEn = Instant.now();
 }
