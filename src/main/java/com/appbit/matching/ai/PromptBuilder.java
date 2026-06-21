@@ -1,6 +1,7 @@
 package com.appbit.matching.ai;
 
 import com.appbit.postulaciones.entity.Postulacion;
+import com.appbit.vacantes.entity.SkillVacante;
 import com.appbit.vacantes.entity.Vacante;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

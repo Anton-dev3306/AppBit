@@ -1,9 +1,9 @@
 package com.appbit.matching.mapper;
 
-import com.appbit.matching.dto.request.MatchRequestDTO;
+import com.appbit.empresas.entity.Empresa;
 import com.appbit.matching.dto.response.MatchResultDTO;
-import com.appbit.matching.dto.response.ShortlistResponseDTO;
 import com.appbit.matching.entity.MatchResultado;
+import com.appbit.vacantes.entity.Vacante;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -11,15 +11,15 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-17T13:37:05-0600",
+    date = "2026-06-20T21:21:59-0600",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class MatchMapperImpl implements MatchMapper {
 
     @Override
-    public MatchResultado toEntity(MatchResultDTO candidato, MatchRequestDTO request, ShortlistResponseDTO shortlist) {
-        if ( candidato == null && request == null && shortlist == null ) {
+    public MatchResultado toEntity(MatchResultDTO candidato, Vacante vacante) {
+        if ( candidato == null && vacante == null ) {
             return null;
         }
 
@@ -37,16 +37,30 @@ public class MatchMapperImpl implements MatchMapper {
                 matchResultado.setSkills( new ArrayList<String>( list ) );
             }
         }
-        if ( request != null ) {
-            matchResultado.setEmpresaId( request.getEmpresaId() );
-            matchResultado.setTitulo( request.getTitulo() );
-            matchResultado.setRegion( request.getRegion() );
-        }
-        if ( shortlist != null ) {
-            matchResultado.setTotalAnalizados( shortlist.getTotalAnalizados() );
-            matchResultado.setDiversidadResultado( shortlist.getDiversidadResultado() );
+        if ( vacante != null ) {
+            Long id = vacanteEmpresaId( vacante );
+            if ( id != null ) {
+                matchResultado.setEmpresaId( String.valueOf( id ) );
+            }
+            matchResultado.setTitulo( vacante.getTitulo() );
+            matchResultado.setRegion( vacante.getRegion() );
         }
 
         return matchResultado;
+    }
+
+    private Long vacanteEmpresaId(Vacante vacante) {
+        if ( vacante == null ) {
+            return null;
+        }
+        Empresa empresa = vacante.getEmpresa();
+        if ( empresa == null ) {
+            return null;
+        }
+        Long id = empresa.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
     }
 }

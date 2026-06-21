@@ -1,7 +1,5 @@
-package com.appbit.candidatos.dto.request;
+package com.appbit.candidatos.dto.response;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,19 +9,16 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CandidatoRequestDTO {
-
-    @NotBlank(message = "El nombre es obligatorio")
+public class CandidatoResponseDTO {
+    private Long id;
     private String nombre;
-
-    @Email
-    @NotBlank(message = "El email es obligatorio")
     private String email;
-
     private List<String> skills;
     private Double lat;
     private Double lng;
     private String genero;
+    private String etnia;
+    private Boolean discapacidad;
     private Integer experienciaAnios;
     private List<String> certificaciones;
 }
