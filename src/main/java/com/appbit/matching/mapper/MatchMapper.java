@@ -4,6 +4,7 @@ import com.appbit.matching.dto.request.MatchRequestDTO;
 import com.appbit.matching.dto.response.MatchResultDTO;
 import com.appbit.matching.dto.response.ShortlistResponseDTO;
 import com.appbit.matching.entity.MatchResultado;
+import com.appbit.vacantes.entity.Vacante;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -21,19 +22,21 @@ public interface MatchMapper {
     @Mapping(target = "lat", source = "candidato.lat")
     @Mapping(target = "lng", source = "candidato.lng")
     @Mapping(target = "skills", source = "candidato.skills")
-    @Mapping(target = "empresaId", source = "request.empresaId")
-    @Mapping(target = "titulo", source = "request.titulo")
-    @Mapping(target = "region", source = "request.region")
-    @Mapping(target = "totalAnalizados", source = "shortlist.totalAnalizados")
-    @Mapping(target = "diversidadResultado", source = "shortlist.diversidadResultado")
-    MatchResultado toEntity(MatchResultDTO candidato,
-                            MatchRequestDTO request,
-                            ShortlistResponseDTO shortlist);
+    @Mapping(target = "empresaId", source = "vacante.empresa.id")
+    @Mapping(target = "titulo", source = "vacante.titulo")
+    @Mapping(target = "region", source = "vacante.region")
+    @Mapping(target = "totalAnalizados", ignore = true)
+    @Mapping(target = "diversidadResultado", ignore = true)
+    MatchResultado toEntity(MatchResultDTO candidato, Vacante vacante);
 
-    default List<MatchResultado> toEntityList(ShortlistResponseDTO shortlist,
-                                              MatchRequestDTO request) {
+    default List<MatchResultado> toEntityList(ShortlistResponseDTO shortlist, Vacante vacante) {
         return shortlist.getCandidatos().stream()
-                .map(c -> toEntity(c, request, shortlist))
+                .map(c -> {
+                    MatchResultado m = toEntity(c, vacante);
+                    m.setTotalAnalizados(shortlist.getTotalAnalizados());
+                    m.setDiversidadResultado(shortlist.getDiversidadResultado());
+                    return m;
+                })
                 .toList();
     }
 }

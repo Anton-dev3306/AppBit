@@ -4,13 +4,16 @@ import com.appbit.matching.ai.FlowiseClient;
 import com.appbit.matching.ai.FlowiseResponseParser;
 import com.appbit.matching.ai.PromptBuilder;
 import com.appbit.matching.dto.request.MatchRequestDTO;
-import com.appbit.matching.dto.response.DashboardResponseDTO;
-import com.appbit.matching.dto.response.ShortlistResponseDTO;
+import com.appbit.matching.dto.response.*;
 import com.appbit.matching.entity.MatchResultado;
 import com.appbit.matching.mapper.MatchMapper;
 import com.appbit.matching.repository.MatchResultadoRepository;
 import com.appbit.matching.service.MatchService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.appbit.postulaciones.entity.Postulacion;
+import com.appbit.postulaciones.repository.PostulacionRepository;
+import com.appbit.shared.exception.AppBitException;
+import com.appbit.vacantes.entity.Vacante;
+import com.appbit.vacantes.repository.VacanteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,17 +30,32 @@ public class MatchServiceImpl implements MatchService {
     private final FlowiseResponseParser responseParser;
     private final MatchMapper matchMapper;
     private final MatchResultadoRepository matchResultadoRepository;
+    private final VacanteRepository vacanteRepository;
+    private final PostulacionRepository postulacionRepository;
 
     @Override
-    public ShortlistResponseDTO ejecutarMatching(MatchRequestDTO request) throws JsonProcessingException {
-        log.info("Iniciando matching — vacante: {} | región: {}", request.getTitulo(), request.getRegion());
+    public ShortlistResponseDTO ejecutarMatching(MatchRequestDTO request) {
 
-        String question = promptBuilder.build(request);
+        Vacante vacante = vacanteRepository.findById(request.getVacanteId())
+                .orElseThrow(() -> new AppBitException(
+                        "Vacante no encontrada con ID: " + request.getVacanteId()));
+
+        List<Postulacion> postulaciones = postulacionRepository
+                .findByVacanteId(request.getVacanteId());
+
+        if (postulaciones.isEmpty()) {
+            throw new AppBitException(
+                    "La vacante no tiene candidatos postulados todavía");
+        }
+
+        log.info("Iniciando matching — vacante: {} | región: {} | candidatos: {}",
+                vacante.getTitulo(), vacante.getRegion(), postulaciones.size());
+
+        String question = promptBuilder.build(vacante, postulaciones, request.getDiversidadMinima());
         String rawResponse = flowiseClient.ejecutar(question);
         ShortlistResponseDTO result = responseParser.parse(rawResponse);
 
-        // Persistir resultados
-        List<MatchResultado> resultados = matchMapper.toEntityList(result, request);
+        List<MatchResultado> resultados = matchMapper.toEntityList(result, vacante);
         matchResultadoRepository.saveAll(resultados);
 
         log.info("Matching completado — candidatos: {} | diversidad: {}",
