@@ -34,8 +34,13 @@ public class FlowiseClient {
         System.out.println(question);
         System.out.println("==================================");
 
-        String body = "{\"question\":" + objectMapper.writeValueAsString(question) + "}";
+        Map<String,Object> body = Map.of(
+                "question", question
+        );
 
+        System.out.println("=== BODY ENVIADO ===");
+        System.out.println(body);
+        System.out.println("====================");
         return webClientBuilder.build()
                 .post()
                 .uri(flowiseUrl + "/api/v1/prediction/" + chatflowId)

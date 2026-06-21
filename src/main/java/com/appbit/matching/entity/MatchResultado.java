@@ -18,6 +18,8 @@ public class MatchResultado {
     private String titulo;
     private String region;
     private int totalAnalizados;
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String diversidadResultado;
 
     // Campos del candidato evaluado
@@ -25,8 +27,8 @@ public class MatchResultado {
     private String nombre;
     private int scoreMatch;
     private boolean badgeDiversidad;
-    private double lat;
-    private double lng;
+    private Double lat;
+    private Double lng;
 
     @ElementCollection
     @CollectionTable(name = "match_skills", joinColumns = @JoinColumn(name = "match_id"))
