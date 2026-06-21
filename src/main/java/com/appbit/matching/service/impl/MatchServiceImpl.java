@@ -14,6 +14,7 @@ import com.appbit.postulaciones.repository.PostulacionRepository;
 import com.appbit.shared.exception.AppBitException;
 import com.appbit.vacantes.entity.Vacante;
 import com.appbit.vacantes.repository.VacanteRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class MatchServiceImpl implements MatchService {
     private final PostulacionRepository postulacionRepository;
 
     @Override
-    public ShortlistResponseDTO ejecutarMatching(MatchRequestDTO request) {
+    public ShortlistResponseDTO ejecutarMatching(MatchRequestDTO request) throws JsonProcessingException {
 
         Vacante vacante = vacanteRepository.findById(request.getVacanteId())
                 .orElseThrow(() -> new AppBitException(
