@@ -34,7 +34,7 @@ public class PromptBuilder {
             Map<String, Object> prompt = Map.of(
                     "titulo", vacante.getTitulo(),
                     "skills", vacante.getSkills().stream()
-                            .map(s -> s.getNombre())
+                            .map(SkillVacante::getNombre)
                             .collect(Collectors.joining(", ")),
                     "nivel", vacante.getNivel(),
                     "region", vacante.getRegion(),
