@@ -1,4 +1,5 @@
 package com.appbit.geolocalizacion.dto.request;
 
-public record InsightRegionDTO() {
+public record InsightRegionDTO(String region) {
+
 }
