@@ -1,4 +1,4 @@
 package com.appbit.geolocalizacion.repository;
 
-public interface InsightRegionRepository {
+public interface MapaTalentosRepository {
 }

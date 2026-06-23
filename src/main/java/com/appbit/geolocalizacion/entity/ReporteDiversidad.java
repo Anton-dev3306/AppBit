@@ -1,4 +1,4 @@
 package com.appbit.geolocalizacion.entity;
 
-public class InsightRegion {
+public class ReporteDiversidad {
 }
