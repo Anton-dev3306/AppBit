@@ -31,4 +31,6 @@ public class Usuario {
     private Set<Rol> roles;
 
     private boolean activo = true;
+
+    private String foto;
 }

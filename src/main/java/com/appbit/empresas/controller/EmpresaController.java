@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -31,5 +30,18 @@ public class EmpresaController {
     @GetMapping("/{id}")
     public ResponseEntity<EmpresaResponseDTO> obtenerPorId(@PathVariable Long id) {
         return ResponseEntity.ok(empresaService.obtenerPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmpresaResponseDTO> actualizarEmpresa(
+            @PathVariable Long id,
+            @Valid @RequestBody EmpresaRequestDTO request) {
+        return ResponseEntity.ok(empresaService.actualizarEmpresa(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarEmpresa(@PathVariable Long id) {
+        empresaService.eliminarEmpresa(id);
+        return ResponseEntity.noContent().build();
     }
 }

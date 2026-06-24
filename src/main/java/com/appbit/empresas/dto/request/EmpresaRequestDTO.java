@@ -17,4 +17,10 @@ public class EmpresaRequestDTO {
     @Email
     @NotBlank(message = "El email es obligatorio")
     private String email;
+
+    private String ruc;
+    private String region;
+    private String foto;
+
+    private EncargadoRequestDTO encargado;
 }

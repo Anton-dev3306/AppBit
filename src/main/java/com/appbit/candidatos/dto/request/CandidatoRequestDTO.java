@@ -23,6 +23,13 @@ public class CandidatoRequestDTO {
     private List<String> skills;
     private Double lat;
     private Double lng;
+    private Double latitud;
+    private Double longitud;
+    private String region;
+    private String residencia;
+    private String documento;
+    private String grupo;
+    private String foto;
     private String genero;
     private Integer experienciaAnios;
     private List<String> certificaciones;

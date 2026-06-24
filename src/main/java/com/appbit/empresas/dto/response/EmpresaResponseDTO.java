@@ -11,4 +11,8 @@ public class EmpresaResponseDTO {
     private Long id;
     private String nombre;
     private String email;
+    private String ruc;
+    private String region;
+    private String foto;
+    private EncargadoResponseDTO encargado;
 }
