@@ -28,6 +28,12 @@ public class CandidatoServiceImpl implements CandidatoService {
         Candidato saved = candidatoRepository.save(candidato);
         return candidatoMapper.toResponse(saved);
     }
+    @Override
+    @Transactional
+    public List<CandidatoResponseDTO> crearCandidatosBatch(List<CandidatoRequestDTO> requests) {
+        List<Candidato> candidatos = requests.stream()
+                .map(candidatoMapper::toEntity)
+                .toList();
 
     @Override
     public List<CandidatoResponseDTO> obtenerTodos() {
