@@ -23,6 +23,12 @@ public class CandidatoController {
         return new ResponseEntity<>(candidatoService.crearCandidato(request), HttpStatus.CREATED);
     }
 
+    @PostMapping("/batch")
+    public ResponseEntity<List<CandidatoResponseDTO>> crearBatch(
+            @Valid @RequestBody List<CandidatoRequestDTO> requests) {
+        return new ResponseEntity<>(candidatoService.crearCandidatosBatch(requests), HttpStatus.CREATED);
+    }
+
     @GetMapping
     public ResponseEntity<List<CandidatoResponseDTO>> obtenerTodos() {
         return ResponseEntity.ok(candidatoService.obtenerTodos());
