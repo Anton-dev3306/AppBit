@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface PostulacionService {
     PostulacionResponseDTO postular(PostulacionRequestDTO request);
+    List<PostulacionResponseDTO> postularBatch(List<PostulacionRequestDTO> requests);
     List<PostulacionResponseDTO> obtenerTodas();
     PostulacionResponseDTO obtenerPorId(Long id);
     PostulacionResponseDTO actualizarEstado(Long id, String estado);
