@@ -22,7 +22,11 @@ public class PostulacionController {
         PostulacionResponseDTO response = postulacionService.postular(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
-
+    @PostMapping("/batch")
+    public ResponseEntity<List<PostulacionResponseDTO>> postularBatch(
+            @Valid @RequestBody List<PostulacionRequestDTO> requests) {
+        return new ResponseEntity<>(postulacionService.postularBatch(requests), HttpStatus.CREATED);
+    }
     @GetMapping
     public ResponseEntity<List<PostulacionResponseDTO>> obtenerTodas() {
         return ResponseEntity.ok(postulacionService.obtenerTodas());
