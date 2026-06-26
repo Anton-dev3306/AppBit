@@ -18,8 +18,14 @@ public class FlowiseResponseParser {
         try {
             JsonNode root = objectMapper.readTree(rawResponse);
             String text = root.get("text").asText();
-            return objectMapper.readValue(text, ShortlistResponseDTO.class);
-        } catch (Exception e) {
+
+            ShortlistResponseDTO result = objectMapper.readValue(text, ShortlistResponseDTO.class);
+
+            result.getCandidatos().sort(
+                    Comparator.comparingInt(MatchResultDTO::getScoreMatch).reversed()
+            );
+
+            return result;        } catch (Exception e) {
             log.error("Error parseando respuesta de Flowise: {}", e.getMessage());
             log.debug("Raw response: {}", rawResponse);
             throw new RuntimeException("Error procesando respuesta del agente ESG", e);
