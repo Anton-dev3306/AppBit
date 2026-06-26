@@ -35,6 +35,9 @@ public class CandidatoServiceImpl implements CandidatoService {
                 .map(candidatoMapper::toEntity)
                 .toList();
 
+        List<Candidato> saved = candidatoRepository.saveAll(candidatos);
+        return candidatoMapper.toResponseList(saved);
+    }
     @Override
     public List<CandidatoResponseDTO> obtenerTodos() {
         return candidatoMapper.toResponseList(candidatoRepository.findAll());
