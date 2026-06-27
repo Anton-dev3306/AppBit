@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CandidatoService {
     CandidatoResponseDTO crearCandidato(CandidatoRequestDTO request);
+    List<CandidatoResponseDTO> crearCandidatosBatch(List<CandidatoRequestDTO> requests);
     List<CandidatoResponseDTO> obtenerTodos();
     CandidatoResponseDTO obtenerPorId(Long id);
 }

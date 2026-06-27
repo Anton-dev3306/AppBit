@@ -27,7 +27,9 @@ public class PromptBuilder {
                                 "nombre", candidato.getNombre(),
                                 "skills", candidato.getSkills() != null ? candidato.getSkills() : List.of(),
                                 "lat", candidato.getLat() != null ? candidato.getLat() : 0.0,
-                                "lng", candidato.getLng() != null ? candidato.getLng() : 0.0
+                                "lng", candidato.getLng() != null ? candidato.getLng() : 0.0,
+                                "genero", candidato.getGenero(),
+                                "experienciaAnios", candidato.getExperienciaAnios()
                         );
                     })
                     .collect(Collectors.toList());

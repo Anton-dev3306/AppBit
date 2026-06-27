@@ -36,7 +36,7 @@ public class Candidato {
     private String documento;
     private String grupo;
     private String foto;
-
+    private Integer experienciaAnios;
     private String genero;
 
     @ElementCollection

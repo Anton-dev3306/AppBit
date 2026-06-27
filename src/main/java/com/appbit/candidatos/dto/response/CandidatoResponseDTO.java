@@ -24,8 +24,6 @@ public class CandidatoResponseDTO {
     private String grupo;
     private String foto;
     private String genero;
-    private String etnia;
-    private Boolean discapacidad;
     private Integer experienciaAnios;
     private List<String> certificaciones;
 }

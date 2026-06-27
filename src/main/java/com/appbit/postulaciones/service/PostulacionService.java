@@ -2,6 +2,8 @@ package com.appbit.postulaciones.service;
 
 import com.appbit.postulaciones.dto.request.PostulacionRequestDTO;
 import com.appbit.postulaciones.dto.response.PostulacionResponseDTO;
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 public interface PostulacionService {

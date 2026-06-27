@@ -51,6 +51,13 @@ public class PostulacionServiceImpl implements PostulacionService {
         Postulacion saved = postulacionRepository.save(postulacion);
         return postulacionMapper.toResponse(saved);
     }
+    @Override
+    @Transactional
+    public List<PostulacionResponseDTO> postularBatch(List<PostulacionRequestDTO> requests) {
+        return requests.stream()
+                .map(this::postular)
+                .toList();
+    }
 
     @Override
     public List<PostulacionResponseDTO> obtenerTodas() {
