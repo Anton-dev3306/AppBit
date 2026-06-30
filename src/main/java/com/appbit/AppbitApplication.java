@@ -18,6 +18,7 @@ public class AppbitApplication {
 	private static void loadDotEnv() {
 		try {
 			if (Files.exists(Paths.get(".env"))) {
+				System.out.println("DEBUG: .env file found!");
 				List<String> lines = Files.readAllLines(Paths.get(".env"));
 				for (String line : lines) {
 					line = line.trim();
@@ -33,9 +34,12 @@ public class AppbitApplication {
 						} else if (value.startsWith("'") && value.endsWith("'") && value.length() >= 2) {
 							value = value.substring(1, value.length() - 1);
 						}
+						System.out.println("DEBUG: Setting property " + key + "=" + value);
 						System.setProperty(key, value);
 					}
 				}
+			} else {
+				System.out.println("DEBUG: .env file NOT found at " + Paths.get(".env").toAbsolutePath());
 			}
 		} catch (IOException e) {
 			System.err.println("Warning: Could not load .env file: " + e.getMessage());
