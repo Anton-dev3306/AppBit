@@ -40,4 +40,17 @@ public class ReporteController {
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(pdf);
     }
+
+    @PostMapping("/esg/generar-pdf")
+    public ResponseEntity<byte[]> generarYDescargarPdf(
+            @Valid @RequestBody ReporteRequestDTO request) {
+
+        byte[] pdf = reporteService.generarYExportarPdf(request);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=reporte-esg-" + request.getEmpresaId() + ".pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
+    }
 }
