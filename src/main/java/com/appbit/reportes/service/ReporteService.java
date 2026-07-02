@@ -9,4 +9,5 @@ public interface ReporteService {
     ReporteResponseDTO generarReporte(ReporteRequestDTO request);
     List<ReporteResponseDTO> obtenerPorEmpresa(String empresaId);
     byte[] exportarPdf(Long reporteId);
+    byte[] generarYExportarPdf(ReporteRequestDTO request);
 }

@@ -126,4 +126,16 @@ public class ReporteServiceImpl implements ReporteService {
                 .orElseThrow(() -> new AppBitException("Reporte no encontrado con ID: " + reporteId));
         return pdfGeneratorService.generar(reporte);
     }
+
+    @Override
+    @Transactional
+    public byte[] generarYExportarPdf(ReporteRequestDTO request) {
+        ReporteResponseDTO reporteGenerado = generarReporte(request);
+
+        ReporteEsg reporte = reporteEsgRepository.findById(reporteGenerado.getId())
+                .orElseThrow(() -> new AppBitException(
+                        "Error interno: reporte recién generado no encontrado"));
+
+        return pdfGeneratorService.generar(reporte);
+    }
 }
