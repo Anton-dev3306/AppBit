@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +47,11 @@ public class AuthServiceImpl implements AuthService {
         UserDetails userDetails = userDetailsService.loadUserByUsername(usuario.getEmail());
         String token = jwtUtil.generateToken(userDetails);
 
-        return new AuthResponseDTO(token, usuario.getEmail(), usuario.getNombre());
+        Set<String> rolesNames = usuario.getRoles().stream()
+                .map(Rol::getNombre)
+                .collect(Collectors.toSet());
+
+        return new AuthResponseDTO(token, usuario.getEmail(), usuario.getNombre(), rolesNames);
     }
 
     @Override
@@ -61,15 +66,29 @@ public class AuthServiceImpl implements AuthService {
         usuario.setPassword(passwordEncoder.encode(request.getPassword()));
         usuario.setActivo(true);
 
-        Rol userRol = rolRepository.findByNombre("USER")
+        String rolInput = request.getRol();
+        if (rolInput == null || rolInput.trim().isEmpty()) {
+            rolInput = "CANDIDATO";
+        }
+        String rolName = rolInput.trim().toUpperCase();
+        if (rolName.equals("ENCARGADO")) {
+            rolName = "EMPRESA";
+        }
+
+        if (!rolName.equals("CANDIDATO") && !rolName.equals("EMPRESA") && !rolName.equals("USER")) {
+            throw new IllegalArgumentException("Rol no válido. Debe ser CANDIDATO, EMPRESA o ENCARGADO");
+        }
+
+        final String finalRolName = rolName;
+        Rol targetRol = rolRepository.findByNombre(finalRolName)
                 .orElseGet(() -> {
                     Rol newRol = new Rol();
-                    newRol.setNombre("USER");
+                    newRol.setNombre(finalRolName);
                     return rolRepository.save(newRol);
                 });
 
         Set<Rol> roles = new HashSet<>();
-        roles.add(userRol);
+        roles.add(targetRol);
         usuario.setRoles(roles);
 
         usuarioRepository.save(usuario);
@@ -77,6 +96,10 @@ public class AuthServiceImpl implements AuthService {
         UserDetails userDetails = userDetailsService.loadUserByUsername(usuario.getEmail());
         String token = jwtUtil.generateToken(userDetails);
 
-        return new AuthResponseDTO(token, usuario.getEmail(), usuario.getNombre());
+        Set<String> rolesNames = usuario.getRoles().stream()
+                .map(Rol::getNombre)
+                .collect(Collectors.toSet());
+
+        return new AuthResponseDTO(token, usuario.getEmail(), usuario.getNombre(), rolesNames);
     }
 }
