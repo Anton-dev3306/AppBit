@@ -17,6 +17,8 @@ public class PostulacionRequestDTO {
     private Long vacanteId;
 
     private String cvUrl;
-
     private String comentarios;
+    private Double scoreMatch;
+    private String badgeDiversidad;
+    private Long idAgenteIA;
 }

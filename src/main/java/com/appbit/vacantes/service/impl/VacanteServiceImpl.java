@@ -72,7 +72,13 @@ public class VacanteServiceImpl implements VacanteService {
         vacante.setModalidad(request.getModalidad());
         vacante.setSalario(request.getSalario());
         vacante.setEmpresa(empresa);
-        vacante.setSkills(vacanteMapper.stringsToSkills(request.getSkills()));
+        
+        if (request.getSkillsTecnicas() != null) {
+            vacante.setSkillsTecnicas(vacanteMapper.stringsToSkills(request.getSkillsTecnicas()));
+        }
+        if (request.getSkillsBlandas() != null) {
+            vacante.setSkillsBlandas(vacanteMapper.stringsToSkills(request.getSkillsBlandas()));
+        }
 
         Vacante updated = vacanteRepository.save(vacante);
         return vacanteMapper.toResponse(updated);

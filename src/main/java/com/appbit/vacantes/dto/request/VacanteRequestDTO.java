@@ -39,4 +39,6 @@ public class VacanteRequestDTO {
     private Long empresaId;
 
     private List<String> skills;
+    private List<String> skillsTecnicas;
+    private List<String> skillsBlandas;
 }

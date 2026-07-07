@@ -23,4 +23,6 @@ public class VacanteResponseDTO {
     private Long empresaId;
     private String empresaNombre;
     private List<String> skills;
+    private List<String> skillsTecnicas;
+    private List<String> skillsBlandas;
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "usuarios")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario {
 
     @Id
@@ -16,7 +17,7 @@ public class Usuario {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
     @Column(nullable = false)
@@ -31,6 +32,4 @@ public class Usuario {
     private Set<Rol> roles;
 
     private boolean activo = true;
-
-    private String foto;
 }

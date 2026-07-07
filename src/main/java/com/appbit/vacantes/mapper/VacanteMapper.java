@@ -15,12 +15,16 @@ public interface VacanteMapper {
     @Mapping(target = "activa", ignore = true)
     @Mapping(target = "fechaCreacion", ignore = true)
     @Mapping(target = "empresa", ignore = true)
-    @Mapping(target = "skills", source = "skills")
+    @Mapping(target = "skills", ignore = true)
+    @Mapping(target = "skillsTecnicas", source = "skillsTecnicas")
+    @Mapping(target = "skillsBlandas", source = "skillsBlandas")
     Vacante toEntity(VacanteRequestDTO request);
 
     @Mapping(target = "empresaId", source = "empresa.id")
     @Mapping(target = "empresaNombre", source = "empresa.nombre")
     @Mapping(target = "skills", source = "skills")
+    @Mapping(target = "skillsTecnicas", source = "skillsTecnicas")
+    @Mapping(target = "skillsBlandas", source = "skillsBlandas")
     VacanteResponseDTO toResponse(Vacante vacante);
 
     List<VacanteResponseDTO> toResponseList(List<Vacante> vacantes);

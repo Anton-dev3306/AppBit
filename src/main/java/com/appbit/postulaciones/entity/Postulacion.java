@@ -29,6 +29,10 @@ public class Postulacion {
     @Column(nullable = false)
     private String estado = "POSTULADO";
 
+    private Double scoreMatch;
+    private String badgeDiversidad;
+    private Long idAgenteIA;
+
     private String cvUrl;
 
     @Column(length = 1000)

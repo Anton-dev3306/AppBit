@@ -36,6 +36,21 @@ public class Vacante {
     private Empresa empresa;
 
     @ElementCollection
-    @CollectionTable(name = "vacante_skills", joinColumns = @JoinColumn(name = "vacante_id"))
-    private List<SkillVacante> skills;
+    @CollectionTable(name = "vacante_skills_tecnicas", joinColumns = @JoinColumn(name = "vacante_id"))
+    private List<SkillVacante> skillsTecnicas;
+
+    @ElementCollection
+    @CollectionTable(name = "vacante_skills_blandas", joinColumns = @JoinColumn(name = "vacante_id"))
+    private List<SkillVacante> skillsBlandas;
+
+    public List<SkillVacante> getSkills() {
+        List<SkillVacante> combined = new java.util.ArrayList<>();
+        if (skillsTecnicas != null) {
+            combined.addAll(skillsTecnicas);
+        }
+        if (skillsBlandas != null) {
+            combined.addAll(skillsBlandas);
+        }
+        return combined;
+    }
 }

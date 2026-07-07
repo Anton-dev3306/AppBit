@@ -1,25 +1,19 @@
 package com.appbit.empresas.entity;
 
+import com.appbit.seguridad.entity.Usuario;
 import com.appbit.vacantes.entity.Vacante;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import java.util.List;
 import java.util.ArrayList;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "empresas")
-public class Empresa {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    private String nombre;
-
-    @Column(nullable = false, unique = true)
-    private String email;
+@PrimaryKeyJoinColumn(name = "id")
+public class Empresa extends Usuario {
 
     private String ruc;
     private String region;

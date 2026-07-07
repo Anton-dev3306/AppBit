@@ -1,5 +1,7 @@
 package com.appbit.seguridad.service.impl;
 
+import com.appbit.candidatos.entity.Candidato;
+import com.appbit.empresas.entity.Empresa;
 import com.appbit.seguridad.JwtUtil;
 import com.appbit.seguridad.dto.request.LoginRequestDTO;
 import com.appbit.seguridad.dto.request.RegisterDTO;
@@ -60,12 +62,6 @@ public class AuthServiceImpl implements AuthService {
             throw new IllegalArgumentException("El email ya está registrado");
         }
 
-        Usuario usuario = new Usuario();
-        usuario.setNombre(request.getNombre());
-        usuario.setEmail(request.getEmail());
-        usuario.setPassword(passwordEncoder.encode(request.getPassword()));
-        usuario.setActivo(true);
-
         String rolInput = request.getRol();
         if (rolInput == null || rolInput.trim().isEmpty()) {
             rolInput = "CANDIDATO";
@@ -78,6 +74,20 @@ public class AuthServiceImpl implements AuthService {
         if (!rolName.equals("CANDIDATO") && !rolName.equals("EMPRESA") && !rolName.equals("USER")) {
             throw new IllegalArgumentException("Rol no válido. Debe ser CANDIDATO, EMPRESA o ENCARGADO");
         }
+
+        Usuario usuario;
+        if (rolName.equals("CANDIDATO")) {
+            usuario = new Candidato();
+        } else if (rolName.equals("EMPRESA")) {
+            usuario = new Empresa();
+        } else {
+            usuario = new Usuario();
+        }
+
+        usuario.setNombre(request.getNombre());
+        usuario.setEmail(request.getEmail());
+        usuario.setPassword(passwordEncoder.encode(request.getPassword()));
+        usuario.setActivo(true);
 
         final String finalRolName = rolName;
         Rol targetRol = rolRepository.findByNombre(finalRolName)

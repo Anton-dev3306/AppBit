@@ -12,6 +12,7 @@ import java.util.List;
 public interface CandidatoMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "skills", ignore = true)
     Candidato toEntity(CandidatoRequestDTO request);
 
     CandidatoResponseDTO toResponse(Candidato candidato);

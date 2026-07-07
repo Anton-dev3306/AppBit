@@ -1,35 +1,34 @@
 package com.appbit.candidatos.entity;
 
+import com.appbit.seguridad.entity.Usuario;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "candidatos")
-public class Candidato {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    private String nombre;
-
-    @Column(nullable = false, unique = true)
-    private String email;
+@PrimaryKeyJoinColumn(name = "id")
+public class Candidato extends Usuario {
 
     @ElementCollection
-    @CollectionTable(name = "candidato_skills", joinColumns = @JoinColumn(name = "candidato_id"))
+    @CollectionTable(name = "candidato_skills_tecnicas", joinColumns = @JoinColumn(name = "candidato_id"))
     @Column(name = "skill")
-    private List<String> skills;
+    private List<String> skillsTecnicas;
+
+    @ElementCollection
+    @CollectionTable(name = "candidato_skills_blandas", joinColumns = @JoinColumn(name = "candidato_id"))
+    @Column(name = "skill")
+    private List<String> skillsBlandas;
 
     @Column(name = "lat")
-    private Double latitud;
+    private Double lat;
 
     @Column(name = "lng")
-    private Double longitud;
+    private Double lng;
 
     private String region;
     private String residencia;
@@ -38,25 +37,21 @@ public class Candidato {
     private String foto;
     private Integer experienciaAnios;
     private String genero;
+    private String nivel;
 
     @ElementCollection
     @CollectionTable(name = "candidato_certificaciones", joinColumns = @JoinColumn(name = "candidato_id"))
     @Column(name = "certificacion")
     private List<String> certificaciones;
 
-    public Double getLat() {
-        return latitud;
-    }
-
-    public void setLat(Double lat) {
-        this.latitud = lat;
-    }
-
-    public Double getLng() {
-        return longitud;
-    }
-
-    public void setLng(Double lng) {
-        this.longitud = lng;
+    public List<String> getSkills() {
+        List<String> combined = new java.util.ArrayList<>();
+        if (skillsTecnicas != null) {
+            combined.addAll(skillsTecnicas);
+        }
+        if (skillsBlandas != null) {
+            combined.addAll(skillsBlandas);
+        }
+        return combined;
     }
 }
