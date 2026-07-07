@@ -18,8 +18,8 @@ server:
 
 flowise:
   url: https://cloud.flowiseai.com
-  chatflow-id: ${FLOWISE_CHATFLOW_ID}
-  api-key: ${FLOWISE_API_KEY}
+  chatflow-id: ${FLOWISE_CHATFLOW_ID:}
+  api-key: ${FLOWISE_API_KEY:}
 
 jwt:
   secret: ${JWT_SECRET}
